@@ -1,0 +1,92 @@
+<div class="app-layout">
+
+  <!-- Zijbalk -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-badge">M</span>
+      <span class="logo-text">MODAL</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item active">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v4H3zM3 10h18v11H3z"/></svg>
+        Archieven
+      </a>
+      <a class="nav-item">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Zoeken
+      </a>
+      <a class="nav-item">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        Configuratie
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Hoofdinhoud -->
+  <main class="main-content">
+    <header class="content-header">
+      <div class="header-title">
+        <h1>Archive Browser</h1>
+        <p>Beheer en verken uw digitale collecties</p>
+      </div>
+      <button class="btn-primary" (click)="openModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Nieuw Archief
+      </button>
+    </header>
+
+    <div class="cards-grid">
+      <!-- Lege toestand -->
+      <p class="empty-state">Geen archieven gevonden. Maak een nieuw archief aan.</p>
+    </div>
+  </main>
+
+</div>
+
+<!-- Modal overlay -->
+@if (showModal()) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+
+      <div class="modal-header">
+        <h2>Nieuw Archief Toevoegen</h2>
+        <button class="btn-close" (click)="closeModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">NAAM VAN HET ARCHIEF</label>
+          <input
+            class="form-input"
+            type="text"
+            placeholder="Bijv. Project_Antwerpen_2026"
+            [value]="archiveName()"
+            (input)="archiveName.set($any($event.target).value)"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">LOCATIE OP SCHIJF</label>
+          <div class="folder-row">
+            <input
+              class="form-input"
+              type="text"
+              [value]="folderPath()"
+              placeholder="Geen map geselecteerd"
+              readonly
+            />
+            <button class="btn-secondary" (click)="selectFolder()">Selecteer Map</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-ghost" (click)="closeModal()">Annuleren</button>
+        <button class="btn-primary" (click)="ingestArchive()">Archief Ingesten</button>
+      </div>
+
+    </div>
+  </div>
+}
