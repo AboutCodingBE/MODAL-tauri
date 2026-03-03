@@ -123,6 +123,172 @@
   padding: 60px 0;
 }
 
+/* ── Archive card ─────────────────────────────────────── */
+.archive-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 18px 18px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.card-icon {
+  width: 28px;
+  height: 28px;
+  color: #9ca3af;
+}
+
+/* Status badges */
+.status-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.status-completed {
+  color: #15803d;
+  background: #dcfce7;
+}
+
+.status-pending {
+  color: #0369a1;
+  background: #e0f2fe;
+}
+
+.status-in_progress {
+  color: #b45309;
+  background: #fef3c7;
+}
+
+.status-failed {
+  color: #b91c1c;
+  background: #fee2e2;
+}
+
+.card-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  word-break: break-word;
+}
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.meta-item svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+/* Card footer action row */
+.card-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid #f3f4f6;
+  padding: 12px 0;
+  margin-top: auto;
+}
+
+.btn-card-result {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #f9fafb;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-card-result svg {
+  width: 13px;
+  height: 13px;
+}
+
+.btn-card-result:hover {
+  background: #f3f4f6;
+}
+
+.btn-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 8px;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+
+.btn-card-icon svg {
+  width: 13px;
+  height: 13px;
+}
+
+.btn-card-icon:hover {
+  color: #374151;
+  background: #f3f4f6;
+}
+
+.btn-card-analyse {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #111827;
+  color: #fff;
+  border: none;
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-card-analyse svg {
+  width: 12px;
+  height: 12px;
+}
+
+.btn-card-analyse:hover {
+  background: #1f2937;
+}
+
 /* ── Buttons ─────────────────────────────────────────── */
 .btn-primary {
   display: inline-flex;
@@ -254,6 +420,33 @@
   gap: 8px;
   padding: 16px 24px 20px;
   border-top: 1px solid #f3f4f6;
+}
+
+/* ── Modal error ─────────────────────────────────────── */
+.modal-error {
+  margin: 0 24px 4px;
+  padding: 10px 14px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  color: #b91c1c;
+  font-size: 13px;
+}
+
+/* ── Spinner ─────────────────────────────────────────── */
+.spinner {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* ── Form ────────────────────────────────────────────── */

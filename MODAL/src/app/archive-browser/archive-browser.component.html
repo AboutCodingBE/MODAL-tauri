@@ -36,8 +36,57 @@
     </header>
 
     <div class="cards-grid">
-      <!-- Lege toestand -->
-      <p class="empty-state">Geen archieven gevonden. Maak een nieuw archief aan.</p>
+      @if (archives().length === 0) {
+        <p class="empty-state">Geen archieven gevonden. Maak een nieuw archief aan.</p>
+      }
+
+      @for (archive of archives(); track archive.id) {
+        <div class="archive-card">
+          <div class="card-top">
+            <!-- Archive icon -->
+            <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <ellipse cx="12" cy="5" rx="9" ry="3"/>
+              <path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/>
+              <path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/>
+            </svg>
+
+            <!-- Status badge -->
+            <span class="status-badge status-{{ archive.analysis_status }}">
+              {{ statusLabel(archive.analysis_status) }}
+            </span>
+          </div>
+
+          <h3 class="card-name">{{ archive.name }}</h3>
+
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              {{ formatDate(archive.created_at) }}
+            </span>
+            <span class="meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              {{ archive.file_count }} bestanden
+            </span>
+          </div>
+
+          <div class="card-footer">
+            @if (archive.analysis_status === 'completed') {
+              <button class="btn-card-result">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                Resultaten
+              </button>
+              <button class="btn-card-icon" title="Instellingen">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+              </button>
+            } @else {
+              <button class="btn-card-analyse">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Analyse Starten
+              </button>
+            }
+          </div>
+        </div>
+      }
     </div>
   </main>
 
@@ -82,9 +131,19 @@
         </div>
       </div>
 
+      @if (errorMessage()) {
+        <div class="modal-error">{{ errorMessage() }}</div>
+      }
+
       <div class="modal-footer">
-        <button class="btn-ghost" (click)="closeModal()">Annuleren</button>
-        <button class="btn-primary" (click)="ingestArchive()">Archief Ingesten</button>
+        <button class="btn-ghost" (click)="closeModal()" [disabled]="isLoading()">Annuleren</button>
+        <button class="btn-primary" (click)="ingestArchive()" [disabled]="isLoading()">
+          @if (isLoading()) {
+            <span class="spinner"></span> Bezig...
+          } @else {
+            Archief Ingesten
+          }
+        </button>
       </div>
 
     </div>
