@@ -3,9 +3,9 @@ version: '3.8'
 services:
   postgres:
     image: postgres:17
-    container_name: simple-planning-tool-db
+    container_name: modal-db
     environment:
-      POSTGRES_DB: planning_tool
+      POSTGRES_DB: modaldb
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     ports:
