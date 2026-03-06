@@ -31,7 +31,4 @@ screenshot for clear view on how the archive cards should look like.
 In this step, we will setup the database, python typesafety and a database migration library. 
 
 ### 6: use actual database
-In this step, we remove the in memory storage and we use a real database. 
-
-### 7: Start with writing tests
-In this step, we will explore how to write tests in python so we can start with better TDD in the next programming session. 
+In this step, we remove the in memory storage and we use a real database.

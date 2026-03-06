@@ -112,3 +112,13 @@ cd my-archive-app
 ```bash
 npm install
 ```
+
+# Database
+
+I am using Alembic for automatic migrations of schemas. When a new schema is added, I need to run the following after
+the docker database is running: 
+
+```shell
+.venv/bin/alembic upgrade head
+```
+This needs to be run in the python folder. 

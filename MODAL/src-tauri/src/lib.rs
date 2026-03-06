@@ -20,7 +20,7 @@ fn get_archives() -> Result<String, String> {
     let python = python_dir();
     let script = python.join("get_archive_overview").join("main.py");
 
-    let output = Command::new("python3")
+    let output = Command::new(python.join(".venv").join("bin").join("python3"))
         .arg(&script)
         .current_dir(&python)
         .output()
@@ -40,7 +40,7 @@ fn create_archive(name: String, path: String) -> Result<(), String> {
     let python = python_dir();
     let script = python.join("create_new_archive").join("main.py");
 
-    let output = Command::new("python3")
+    let output = Command::new(python.join(".venv").join("bin").join("python3"))
         .arg(&script)
         .arg(&name)
         .arg(&path)
