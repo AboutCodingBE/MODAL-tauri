@@ -43,7 +43,7 @@ def main() -> None:
             ],
             check=True,
         )
-        print(f"  → dist/{feature}")
+        print(f"  -> dist/{feature}")
 
     print(f"\nAll {len(entry_points)} features bundled successfully.")
 
