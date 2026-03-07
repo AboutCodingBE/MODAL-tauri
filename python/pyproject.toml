@@ -9,3 +9,6 @@ dependencies = [
     "pydantic>=2.0",
     "pydantic-settings>=2.0",
 ]
+
+[tool.setuptools.packages.find]
+exclude = ["migrations*"]
