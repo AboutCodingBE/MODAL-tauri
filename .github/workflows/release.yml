@@ -65,6 +65,12 @@ jobs:
       - name: Install frontend dependencies
         run: npm ci
 
+      - name: Build Angular frontend  # ← ADD THIS
+        run: npm run build
+
+      - name: Verify frontend build  # ← ADD THIS (optional debug step)
+        run: ls -la dist/my-archive-app/browser/
+
       - name: Cache Rust dependencies
         uses: Swatinem/rust-cache@v2
         with:
