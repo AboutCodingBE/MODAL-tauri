@@ -69,7 +69,7 @@ jobs:
         run: npm run build
 
       - name: Verify frontend build  # ← ADD THIS (optional debug step)
-        run: ls -la dist/my-archive-app/browser/
+        run: ls -la dist/modal/browser/
 
       - name: Cache Rust dependencies
         uses: Swatinem/rust-cache@v2
