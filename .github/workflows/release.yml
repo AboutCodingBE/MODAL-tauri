@@ -68,8 +68,37 @@ jobs:
       - name: Build Angular frontend  # ← ADD THIS
         run: npm run build
 
-      - name: Verify frontend build  # ← ADD THIS (optional debug step)
-        run: ls -la dist/modal/browser/
+      - name: DEBUG - Check Angular build output
+        shell: bash
+        run: |
+          echo "=== Checking if dist exists ==="
+          ls -la dist/ || echo "❌ No dist directory!"
+          echo ""
+          echo "=== Checking dist/modal ==="
+          ls -la dist/modal/ || echo "❌ No dist/modal directory!"
+          echo ""
+          echo "=== Checking dist/modal/browser ==="
+          ls -la dist/modal/browser/ || echo "❌ No dist/modal/browser directory!"
+          echo ""
+          echo "=== Looking for index.html ==="
+          find dist -name "index.html" -type f || echo "❌ No index.html found anywhere in dist!"
+          echo ""
+          echo "=== Full dist tree ==="
+          find dist -type f || echo "❌ Cannot list dist tree"
+
+      - name: DEBUG - Show tauri.conf.json build section
+        shell: bash
+        run: |
+          echo "=== tauri.conf.json build configuration ==="
+          cat src-tauri/tauri.conf.json | grep -A 10 '"build"' || cat src-tauri/tauri.conf.json
+
+      - name: DEBUG - Verify files before Tauri build
+        shell: bash
+        run: |
+          echo "=== Checking from src-tauri perspective ==="
+          cd src-tauri
+          ls -la ../dist/modal/browser/ || echo "❌ Cannot see frontend from src-tauri!"
+          test -f ../dist/modal/browser/index.html && echo "✅ index.html exists!" || echo "❌ index.html NOT found!"
 
       - name: Cache Rust dependencies
         uses: Swatinem/rust-cache@v2
