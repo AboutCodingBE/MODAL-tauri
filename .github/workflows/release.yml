@@ -92,20 +92,14 @@ jobs:
           pwd
           echo ""
           echo "=== Does python/dist exist? ==="
-          ls -la python/ || echo "No python/ directory!"
-          echo ""
-          echo "=== Contents of python/dist ==="
           ls -la python/dist/ || echo "No python/dist/ directory!"
-          echo ""
-          echo "=== Find all dist directories ==="
-          find . -name "dist" -type d
-          echo ""
-          echo "=== Find all executables ==="
-          find . -type f -executable -name "create_new_archive" -o -name "get_archive_overview"
           echo ""
           echo "=== Check from src-tauri perspective ==="
           cd src-tauri
           ls -la ../python/dist/ || echo "Cannot see ../python/dist/ from src-tauri!"
+          echo ""
+          echo "=== File types ==="
+          file ../python/dist/* || true
 
       - name: Determine if prerelease
         id: prerelease
