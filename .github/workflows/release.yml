@@ -68,38 +68,6 @@ jobs:
       - name: Build Angular frontend  # ← ADD THIS
         run: npm run build
 
-      - name: DEBUG - Check Angular build output
-        shell: bash
-        run: |
-          echo "=== Checking if dist exists ==="
-          ls -la dist/ || echo "❌ No dist directory!"
-          echo ""
-          echo "=== Checking dist/modal ==="
-          ls -la dist/modal/ || echo "❌ No dist/modal directory!"
-          echo ""
-          echo "=== Checking dist/modal/browser ==="
-          ls -la dist/modal/browser/ || echo "❌ No dist/modal/browser directory!"
-          echo ""
-          echo "=== Looking for index.html ==="
-          find dist -name "index.html" -type f || echo "❌ No index.html found anywhere in dist!"
-          echo ""
-          echo "=== Full dist tree ==="
-          find dist -type f || echo "❌ Cannot list dist tree"
-
-      - name: DEBUG - Show tauri.conf.json build section
-        shell: bash
-        run: |
-          echo "=== tauri.conf.json build configuration ==="
-          cat src-tauri/tauri.conf.json | grep -A 10 '"build"' || cat src-tauri/tauri.conf.json
-
-      - name: DEBUG - Verify files before Tauri build
-        shell: bash
-        run: |
-          echo "=== Checking from src-tauri perspective ==="
-          cd src-tauri
-          ls -la ../dist/modal/browser/ || echo "❌ Cannot see frontend from src-tauri!"
-          test -f ../dist/modal/browser/index.html && echo "✅ index.html exists!" || echo "❌ index.html NOT found!"
-
       - name: Cache Rust dependencies
         uses: Swatinem/rust-cache@v2
         with:
@@ -117,13 +85,27 @@ jobs:
         run: python bundle.py
         working-directory: python
 
-      - name: Verify executables were created  # ← Add this
+      - name: DEBUG - Check if executables were created
         shell: bash
         run: |
-          echo "=== Checking python/dist/ ==="
-          ls -la python/dist/
-          echo "=== File types ==="
-          file python/dist/* || true
+          echo "=== PWD ==="
+          pwd
+          echo ""
+          echo "=== Does python/dist exist? ==="
+          ls -la python/ || echo "No python/ directory!"
+          echo ""
+          echo "=== Contents of python/dist ==="
+          ls -la python/dist/ || echo "No python/dist/ directory!"
+          echo ""
+          echo "=== Find all dist directories ==="
+          find . -name "dist" -type d
+          echo ""
+          echo "=== Find all executables ==="
+          find . -type f -executable -name "create_new_archive" -o -name "get_archive_overview"
+          echo ""
+          echo "=== Check from src-tauri perspective ==="
+          cd src-tauri
+          ls -la ../python/dist/ || echo "Cannot see ../python/dist/ from src-tauri!"
 
       - name: Determine if prerelease
         id: prerelease
