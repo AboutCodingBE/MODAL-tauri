@@ -117,6 +117,14 @@ jobs:
         run: python bundle.py
         working-directory: python
 
+      - name: Verify executables were created  # ← Add this
+        shell: bash
+        run: |
+          echo "=== Checking python/dist/ ==="
+          ls -la python/dist/
+          echo "=== File types ==="
+          file python/dist/* || true
+
       - name: Determine if prerelease
         id: prerelease
         shell: bash
