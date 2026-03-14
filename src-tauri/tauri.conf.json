@@ -35,9 +35,9 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
-    "resources": {
-      "../python/dist/*": "./"
-    }
+    "resources": [
+      "../python/dist/*"
+    ]
   },
   "plugins": {
     "fs": {
