@@ -41,23 +41,47 @@ jobs:
       - name: Install frontend dependencies
         run: npm ci
 
-      - name: Build Angular app
+      - name: Build Angular frontend
         run: npm run build
 
       - name: Cache Rust dependencies
         uses: Swatinem/rust-cache@v2
         with:
           workspaces: src-tauri
+          key: ${{ matrix.target }}
 
-      - name: Check Rust compilation
-        run: cargo check
-        working-directory: src-tauri
-
-      - name: Install Python dependencies
+      - name: Install Python dependencies and PyInstaller
         run: |
           python -m pip install --upgrade pip
+          pip install pyinstaller
           pip install .
         working-directory: python
+
+      - name: Bundle Python features
+        run: python bundle.py
+        working-directory: python
+
+      - name: DEBUG - Check if executables were created
+        shell: bash
+        run: |
+          echo "=== PWD ==="
+          pwd
+          echo ""
+          echo "=== Does python/dist exist? ==="
+          ls -la python/ || echo "No python/ directory!"
+          echo ""
+          echo "=== Contents of python/dist ==="
+          ls -la python/dist/ || echo "No python/dist/ directory!"
+          echo ""
+          echo "=== Find all dist directories ==="
+          find . -name "dist" -type d
+          echo ""
+          echo "=== Find all executables ==="
+          find . -type f -executable -name "create_new_archive" -o -name "get_archive_overview"
+          echo ""
+          echo "=== Check from src-tauri perspective ==="
+          cd src-tauri
+          ls -la ../python/dist/ || echo "Cannot see ../python/dist/ from src-tauri!"
 
       - name: Run frontend tests (placeholder)
         run: echo "Frontend tests not yet implemented"
