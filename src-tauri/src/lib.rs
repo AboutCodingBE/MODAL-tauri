@@ -82,13 +82,9 @@ fn create_archive(app: tauri::AppHandle, name: String, path: String) -> Result<(
 }
 
 #[tauri::command]
-async fn run_database_migrations(app: tauri::AppHandle) -> Result<String, String> {
-    tokio::task::spawn_blocking(move || {
-        let output = invoke_python(&app, "run_migrations", &[])?;
-        handle_output(output)
-    })
-    .await
-    .map_err(|e| format!("Task failed: {}", e))?
+fn run_database_migrations(app: tauri::AppHandle) -> Result<String, String> {
+    let output = invoke_python(&app, "run_migrations", &[])?;
+    handle_output(output)
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
