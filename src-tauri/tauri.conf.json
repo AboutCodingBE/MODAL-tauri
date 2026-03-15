@@ -36,7 +36,9 @@
       "icons/icon.ico"
     ],
     "resources": [
-      "../python/dist/*"
+      "../python/dist/*",
+      "../python/alembic.ini",
+      "../python/migrations"
     ]
   },
   "plugins": {
