@@ -93,14 +93,16 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
         .setup(|app| {
-            // Run migrations on startup
             let app_handle = app.handle().clone();
-            tauri::async_runtime::spawn(async move {
-                match run_database_migrations(app_handle).await {
+
+            // Run migrations in background thread
+            std::thread::spawn(move || {
+                match run_database_migrations(app_handle) {
                     Ok(result) => println!("✅ Migrations: {}", result),
                     Err(e) => eprintln!("⚠️ Migration failed: {}", e),
                 }
             });
+
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![greet, create_archive, get_archives, run_database_migrations])
