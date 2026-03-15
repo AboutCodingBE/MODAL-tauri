@@ -42,12 +42,17 @@ fn make_command(_app: &tauri::AppHandle, feature: &str) -> Command {
 #[cfg(not(debug_assertions))]
 fn make_command(app: &tauri::AppHandle, feature: &str) -> Command {
     let exe_name = format!("{}{}", feature, std::env::consts::EXE_SUFFIX);
-    let exe_path = app
-        .path()
-        .resource_dir()
-        .expect("Could not resolve resource directory")
-        .join(&exe_name);
-    Command::new(exe_path)
+
+        let exe_path = app
+            .path()
+            .resource_dir()
+            .expect("Could not resolve resource directory")
+            .join("_up_")
+            .join("python")
+            .join("dist")
+            .join(&exe_name);
+
+        Command::new(exe_path)
 }
 
 fn handle_output(output: std::process::Output) -> Result<String, String> {
