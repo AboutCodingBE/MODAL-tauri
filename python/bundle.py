@@ -39,6 +39,7 @@ def main() -> None:
                 "--hidden-import", "logging.config",
                 "--hidden-import", "alembic",
                 "--hidden-import", "sqlalchemy",
+                "--collect-all", "shared",
                 "--distpath", str(python_dir / "dist"),
                 "--workpath", str(python_dir / "build" / feature),
                 "--specpath", str(python_dir / "build" / feature),
