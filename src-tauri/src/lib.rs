@@ -81,12 +81,33 @@ fn create_archive(app: tauri::AppHandle, name: String, path: String) -> Result<(
     handle_output(output).map(|_| ())
 }
 
+#[tauri::command]
+async fn run_database_migrations(app: tauri::AppHandle) -> Result<String, String> {
+    tokio::task::spawn_blocking(move || {
+        let output = invoke_python(&app, "run_migrations", &[])?;
+        handle_output(output)
+    })
+    .await
+    .map_err(|e| format!("Task failed: {}", e))?
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
-        .invoke_handler(tauri::generate_handler![greet, create_archive, get_archives])
+        .setup(|app| {
+            // Run migrations on startup
+            let app_handle = app.handle().clone();
+            tauri::async_runtime::spawn(async move {
+                match run_database_migrations(app_handle).await {
+                    Ok(result) => println!("✅ Migrations: {}", result),
+                    Err(e) => eprintln!("⚠️ Migration failed: {}", e),
+                }
+            });
+            Ok(())
+        })
+        .invoke_handler(tauri::generate_handler![greet, create_archive, get_archives, run_database_migrations])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
