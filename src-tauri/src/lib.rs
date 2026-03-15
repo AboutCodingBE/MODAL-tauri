@@ -83,8 +83,23 @@ fn create_archive(app: tauri::AppHandle, name: String, path: String) -> Result<(
 
 #[tauri::command]
 fn run_database_migrations(app: tauri::AppHandle) -> Result<String, String> {
-    let output = invoke_python(&app, "run_migrations", &[])?;
-    handle_output(output)
+    // Get the resource directory
+        let resource_dir = app
+            .path()
+            .resource_dir()
+            .expect("Could not get resource directory");
+
+        let python_dir = resource_dir
+            .join("_up_")
+            .join("python");
+
+        let python_dir_str = python_dir
+            .to_str()
+            .ok_or("Invalid path")?;
+
+        // Pass the python directory as an argument
+        let output = invoke_python(&app, "run_migrations", &[python_dir_str])?;
+        handle_output(output)
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
