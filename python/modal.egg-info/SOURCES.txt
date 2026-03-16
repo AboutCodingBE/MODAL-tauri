@@ -14,6 +14,7 @@ modal.egg-info/SOURCES.txt
 modal.egg-info/dependency_links.txt
 modal.egg-info/requires.txt
 modal.egg-info/top_level.txt
+run_migrations/main.py
 shared/__init__.py
 shared/config.py
 shared/database.py

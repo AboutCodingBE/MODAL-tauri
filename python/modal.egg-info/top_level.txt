@@ -1,3 +1,4 @@
 create_new_archive
 get_archive_overview
+run_migrations
 shared
