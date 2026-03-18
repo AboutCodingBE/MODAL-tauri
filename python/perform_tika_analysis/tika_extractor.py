@@ -13,9 +13,8 @@ def TIKA_text_extract(file_path):
     """
     try:
         # Parse the file
-        print(file_path)
         parsed = parser.from_file(file_path, serverEndpoint='http://localhost:9998/', requestOptions={'timeout': 300})
-        print(parsed)
+        #print(parsed)
         # Extract text content
         text = parsed.get('content', '')
         metadata = parsed.get('metadata', {})
@@ -33,10 +32,6 @@ def TIKA_text_extract(file_path):
         creator = metadata.get('dc:creator', '')
 
         tika_parser = metadata.get('X-TIKA:Parsed-By-Full-Set', 'Unknown')
-
-        # if not text.strip():
-        # if not text:
-        #     return "none"
 
         return file_mimetype, text, tika_parser, text_language, creation_date, creator
     except Exception as e:
