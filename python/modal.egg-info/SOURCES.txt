@@ -14,6 +14,11 @@ modal.egg-info/SOURCES.txt
 modal.egg-info/dependency_links.txt
 modal.egg-info/requires.txt
 modal.egg-info/top_level.txt
+perform_tika_analysis/file_repository.py
+perform_tika_analysis/main.py
+perform_tika_analysis/perform_tika_analysis.py
+perform_tika_analysis/text_functions.py
+perform_tika_analysis/tika_repository.py
 run_migrations/main.py
 shared/__init__.py
 shared/config.py

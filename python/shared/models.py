@@ -78,3 +78,37 @@ class File(Base):
     archive: Mapped["Archive"] = relationship("Archive", back_populates="files")
     parent: Mapped["File | None"] = relationship("File", remote_side="File.id", back_populates="children")
     children: Mapped[list["File"]] = relationship("File", back_populates="parent", cascade="all, delete-orphan")
+
+class TikaAnalysis(Base):
+    __tablename__ = "tika_analyses"
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), 
+        primary_key=True, 
+        default=uuid.uuid4
+    )
+    
+    # Link to the existing 'files' table
+    file_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), 
+        ForeignKey("files.id", ondelete="CASCADE"), 
+        nullable=False, 
+        unique=True,
+        index=True
+    )
+    
+    mime_type: Mapped[str | None] = mapped_column(String(255))
+    tika_parser: Mapped[str | None] = mapped_column(Text)
+    content: Mapped[str | None] = mapped_column(Text)
+    language: Mapped[str | None] = mapped_column(String(10), index=True)
+    word_count: Mapped[int | None] = mapped_column()
+    author: Mapped[str | None] = mapped_column(String(500))
+    
+    content_created_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True)
+    )
+    
+    analyzed_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), 
+        server_default=func.now()
+    )
