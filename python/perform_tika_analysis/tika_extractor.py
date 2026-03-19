@@ -1,5 +1,9 @@
-from tika import parser, language, detector
+import os
 
+os.environ['TIKA_CLIENT_ONLY'] = 'True'
+os.environ['TIKA_SERVER_ENDPOINT'] = 'http://localhost:9998'
+
+from tika import parser, language, detector
 
 def TIKA_text_extract(file_path):
     """
