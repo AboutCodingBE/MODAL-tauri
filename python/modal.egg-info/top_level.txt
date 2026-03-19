@@ -1,3 +1,6 @@
+build
 create_new_archive
 get_archive_overview
+perform_tika_analysis
+run_migrations
 shared

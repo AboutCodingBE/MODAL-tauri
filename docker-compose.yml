@@ -12,6 +12,14 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+  tika:
+    image: apache/tika:latest
+    container_name: modal-tika
+    ports:
+      - "9998:9998"
+    restart: always
 
 volumes:
   postgres_data:
